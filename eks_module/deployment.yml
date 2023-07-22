@@ -18,4 +18,4 @@ spec:
       - name: java-app
         image: umansh/java-app:latest
         ports:
-        - containerPort: 80
+        - containerPort: 8080
