@@ -23,7 +23,7 @@ pipeline {
                 withSonarQubeEnv(installationName: 'sonar-api', credentialsId: 'sonar-api') {
                     sh 'mvn clean package sonar:sonar'
             }
-         }     
+          }     
         }
         stage("quality check"){
             steps {
@@ -31,6 +31,6 @@ pipeline {
             }
         }
         
-      }
     }
+    
 }
