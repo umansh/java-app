@@ -57,6 +57,15 @@ pipeline {
                 }
             }
         }
+         stage("Build"){
+            steps {
+                echo "Building the image"
+                sh """
+                docker rmi java-app
+                docker rmi java-app ${env.dockerHubUser}/java-app:latest
+                """
+            }
+        }
           
 
         
