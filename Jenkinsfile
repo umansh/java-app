@@ -18,5 +18,10 @@ pipeline {
                 sh 'mvn verify -DskipUnitTests'
             }
         }
+        stage("static code analysis"){
+            steps {
+                sh 'mvn clean package sonar:sonar'
+            }
+        }
     }
 }
