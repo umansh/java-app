@@ -36,17 +36,7 @@ pipeline {
                 sh "docker build -t java-app ."
             }
         }
-        stage("Push to Docker Hub"){
-            steps {
-                echo "Pushing the image to docker hub"
-                withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
-                sh "docker tag java-app ${env.dockerHubUser}/java-app:latest"
-                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                sh "docker push ${env.dockerHubUser}/java-app:latest"
-                }
-            }
-        }
-          stage("docker image scan"){
+        stage("docker image scan"){
             steps {    
                 withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
                  sh """
@@ -57,6 +47,17 @@ pipeline {
                
             }
         }
+        stage("Push to Docker Hub"){
+            steps {
+                echo "Pushing the image to docker hub"
+                withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
+                sh "docker tag java-app ${env.dockerHubUser}/java-app:latest"
+                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
+                sh "docker push ${env.dockerHubUser}/java-app:latest"
+                }
+            }
+        }
+          
 
         
     }
