@@ -8,14 +8,12 @@ pipeline {
                 git url:"https://github.com/umansh/java-app.git", branch: "main"
             }
         }
-        stage("maven test"){
+        stage("maven test and integration verify"){
             steps {     
-                sh 'mvn test'
-            }
-        }
-        stage("maven integration verify"){
-            steps {
-                sh 'mvn verify -DskipUnitTests'
+                sh """
+                    mvn test
+                    mvn verify -DskipUnitTests
+                """
             }
         }
         stage("static code analysis"){
@@ -25,17 +23,15 @@ pipeline {
             }
           }     
         }
-        stage("maven install"){
+        stage("maven install and docker build"){
             steps {     
-                sh 'mvn clean install'
+                sh """
+                mvn clean install
+                docker build -t java-app .
+                """
             }
         }
-        stage("Build"){
-            steps {
-                
-                sh "docker build -t java-app ."
-            }
-        }
+        
         stage("docker image scan"){
             steps {    
                 withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
@@ -55,6 +51,15 @@ pipeline {
                 sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
                 sh "docker push ${env.dockerHubUser}/java-app:latest"
                 }
+            }
+        }
+         stage("maven install and docker build"){
+            steps {     
+                sh """
+                
+                docker rmi java-app 
+                docker rmi ${env.dockerHubUser}/java-app:latest
+                """
             }
         }
 
