@@ -57,8 +57,13 @@ pipeline {
             }
         }
         stage("docker image remove"){
-            steps {     
-                sh 'docker rmi java-app'
+            steps {
+                withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
+                sh """
+                docker rmi java-app
+                docker rmi ${env.dockerHubUser}/java-app
+                """
+                }
             }
         }
 
