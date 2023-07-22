@@ -56,6 +56,11 @@ pipeline {
                 }
             }
         }
+        stage("docker image remove"){
+            steps {     
+                sh 'docker rmi java-app'
+            }
+        }
 
     }
     
