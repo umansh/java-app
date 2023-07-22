@@ -1,4 +1,4 @@
-apiVersion: apps/latest
+apiVersion: app/latest
 kind: Deployment
 metadata:
   name: java-app
