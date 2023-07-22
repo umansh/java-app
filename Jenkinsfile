@@ -47,11 +47,14 @@ pipeline {
             }
         }
           stage("docker image scan"){
-            steps {     
-                sh """
-                    trivy image java-app ${env.dockerHubUser}/java-app:latest' > scan.txt
+            steps {    
+                withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
+                 sh """
+                    trivy image ${env.dockerHubUser}/java-app:latest' > scan.txt
                     cat scan.txt
                 """
+                }
+               
             }
         }
 
