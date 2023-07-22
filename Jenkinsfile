@@ -50,7 +50,7 @@ pipeline {
             steps {    
                 withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
                  sh """
-                    trivy image ${env.dockerHubUser}/java-app:latest' > scan.txt
+                    trivy image ${env.dockerHubUser}/java-app:latest > scan.txt
                     cat scan.txt
                 """
                 }
