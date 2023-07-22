@@ -46,6 +46,14 @@ pipeline {
                 }
             }
         }
+          stage("docker image scan"){
+            steps {     
+                sh """
+                    trivy image java-app ${env.dockerHubUser}/java-app:latest' > scan.txt
+                    cat scan.txt
+                """
+            }
+        }
 
         
     }
