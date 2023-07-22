@@ -10,7 +10,7 @@ pipeline {
         }
         stage("maven test"){
             steps {     
-                sh mvn test'
+                sh 'mvn test'
             }
         }
         stage("maven integration verify"){
@@ -25,12 +25,12 @@ pipeline {
             }
           }     
         }
-        stage("maven install and docker build"){
+        stage("maven install"){
             steps {     
                 sh 'mvn clean install'  
             }
         }
-        stage("maven install and docker build"){
+        stage("docker build"){
             steps {     
                 sh 'docker build -t java-app .'
             }
