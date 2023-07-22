@@ -8,5 +8,11 @@ pipeline {
                 git url:"https://github.com/umansh/java-app.git", branch: "main"
             }
         }
+         stage("maven test"){
+            steps {
+                echo "mvn test"
+                sh 'mvn test'
+            }
+        }
     }
 }
