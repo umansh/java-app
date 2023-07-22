@@ -25,11 +25,12 @@ pipeline {
             }
           }     
         }
-        stage("quality check"){
-            steps {
-                waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api'
+        stage("maven install"){
+            steps {     
+                sh 'mvn clean install'
             }
         }
+
         
     }
     
